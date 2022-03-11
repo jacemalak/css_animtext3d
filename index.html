@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text 3d Animation: HTML CSS Vanilla Javascript</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        background: black;
+      }
+      .container {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(
+          rgb(255, 231, 95),
+          rgb(245, 223, 24),
+          rgb(253, 255, 148),
+          rgb(245, 223, 24),
+          rgb(255, 231, 95)
+        );
+        width: 1282px;
+        height: 722px;
+        border: 1px solid white;
+        overflow: hidden;
+      }
+      .swapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 450px;
+        height: 450px;
+        border: 0px solid lightgreen;
+        perspective: 1500px;
+      }
+      .cube {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate3d(1, 1, 1, 0deg) translateZ(0px)
+          translateY(0px) translateX(0px) rotateX(-55deg) rotateY(0deg)
+          rotateZ(0deg) scale(1);
+        width: 240px;
+        height: 240px;
+        transform-style: preserve-3d;
+        animation: anim3dChange 12s ease-in-out forwards;
+      }
+      .side {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        color: white;
+        border: 1px solid yellow;
+        backface-visibility: auto;
+      }
+      span {
+        position: absolute;
+        top: 80%;
+        left: 80%;
+        transform: translate(-50%, -50%);
+        text-transform: uppercase;
+      }
+      .textArea {
+        transform: translateZ(-500px);
+        transform-style: preserve-3d;
+        border-color: transparent;
+        white-space: nowrap;
+        text-align: center;
+        animation: anim3d 20s linear forwards;
+      }
+      @keyframes anim3d {
+        to {
+          transform: translateZ(800px);
+        }
+      }
+      @keyframes anim3dChange {
+        to {
+          transform: translate(-50%, -50%) rotate3d(1, 1, 1, 0deg)
+            translateZ(0px) translateY(0px) translateX(0px) rotateX(14deg)
+            rotateY(0deg) rotateZ(0deg) scale(1);
+        }
+      }
+      span.text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 60px;
+        font-family: arial;
+        color: rgb(0, 138, 218);
+      }
+      .front,
+      .back,
+      .left,
+      .right,
+      .bottom,
+      .top {
+        opacity: 0;
+      }
+      .front {
+        transform: translateZ(120px);
+      }
+      .back {
+        transform: rotateY(180deg) translateZ(120px);
+      }
+      .left {
+        transform: rotateY(-90deg) translateZ(120px);
+      }
+      .right {
+        transform: rotateY(90deg) translateZ(120px);
+      }
+      .top {
+        transform: rotateX(90deg) translateZ(120px);
+      }
+      .bottom {
+        transform: rotateX(-90deg) translateZ(120px);
+      }
+      @keyframes anim {
+        to {
+          transform: translate(-50%, -50%) rotateX(-35deg) rotateY(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="swapper">
+        <div class="cube" id="expVar">
+          <div class="side front">
+            <span>FRONT</span>
+          </div>
+          <div class="side textArea" id="text"></div>
+          <div class="side back">
+            <span>back</span>
+          </div>
+          <div class="side left">
+            <span>left</span>
+          </div>
+          <div class="side right">
+            <span>right</span>
+          </div>
+          <div class="side top">
+            <span>top</span>
+          </div>
+          <div class="side bottom">
+            <span>bottom</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const textLabel = "3D Text Anim";
+
+      createText3d(120, 0.1, "rgba(0, 138, 218,.9)", "rgba(0,0,0,.7)");
+
+      function createText3d(layerLength, thick, colorText, colorThick) {
+        for (let i = 0; i < layerLength; i++) {
+          const layerEl = document.createElement("span");
+          const textInput = document.createTextNode(textLabel);
+
+          layerEl.classList.add("text");
+          layerEl.appendChild(textInput);
+          text.appendChild(layerEl);
+        }
+
+        let textSpan = document.querySelectorAll("span.text");
+        const textLength = textSpan.length - 1;
+
+        textSpan.forEach((e, i) => {
+          textSpan[i].style.transform = `translate(-50%, -50%) translateZ(${
+            i * thick
+          }px)`;
+
+          textSpan[i].style.color = colorThick;
+          textSpan[textLength].style.color = colorText;
+          textSpan[textLength].style.webkitTextStroke = "1px rgba(0,0,0,.6)";
+          textSpan[textLength].style.filter = "blur(0.8px)";
+        });
+      }
+    </script>
+  </body>
+</html>
